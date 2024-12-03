@@ -1,6 +1,6 @@
 #Get input
 try:
-    with open("test.txt", "r") as file:
+    with open("input.txt", "r") as file:
         data = file.readlines()
 except FileNotFoundError:
     print("File not found.")
@@ -33,7 +33,31 @@ def parse(instr):
         return 11
     else:
         return -1
+total = 0
+for entry in data:
 
+    count = 0
+    #test = data[0]
+    indices = get_inst(entry)
+    #print(indices)
+    for index in indices:
+        sub = entry[index:index+12:1]
+        term = parse(sub)
+        if term == -1:
+            continue
+        else:
+            process = sub[:term+1]
+            process = process.split(",")
+            if len(process) == 2:
+                count = count + 1
+                first = process[0]
+                first = first[4:]
+                second = process[1]
+                second = second[:-1]
+                total = total + int(first) * int(second)
+
+print(total)
+'''
 total = 0
 test = data[0]
 indices = get_inst(test)
@@ -53,3 +77,4 @@ for index in indices:
         total = total + int(first) * int(second)
 
 print(total)
+'''
