@@ -1,11 +1,29 @@
 #Get input
 try:
-    with open("input.txt", "r") as file:
+    with open("test.txt", "r") as file:
         data = file.readlines()
 except FileNotFoundError:
     print("File not found.")
 except PermissionError:
     print("Permission denied.")
+
+def process(data):
+    processed = []
+    enabled = True
+    for i in range(len(data)):
+        entry = data[i]
+        entry = entry.split("don't()")
+        if enabled == True:
+            processed.append(entry[0])
+
+        for j in range(1, len(entry)):
+            index = entry[j].find("do()")
+            if index != -1:
+                processed.append(entry[j][index:])
+                enabled = True
+            else:
+                enabled = False
+    return processed
 
 def get_inst(memory):
     locations = []
@@ -34,7 +52,8 @@ def parse(instr):
     else:
         return -1
 total = 0
-for entry in data:
+processed = process(data)
+for entry in processed:
 
     count = 0
     #test = data[0]
